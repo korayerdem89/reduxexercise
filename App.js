@@ -11,6 +11,8 @@ function reducers(state, action) {
   switch (action.type) {
     case 'UPDATE_COUNTER':
       return {...state, counter: state.counter + 1};
+      case 'DECREASE_COUNTER':
+        return {...state, counter: state.counter - 1};
     default:
       return state;
   }
@@ -45,9 +47,16 @@ dispatch(
 
 const Second = () => {
   const counter = useSelector( selector => selector.counter);
+  const dispatch = useDispatch();
+
+  const handleDecrease = () => {
+dispatch(
+  {type: 'DECREASE_COUNTER'})
+  }
   return (
     <View style={{flex: 1}}>
       <Text>Second: {counter}</Text>
+      <Button title='Decrease' onPress={handleDecrease}/>
     </View>
   );
 };
