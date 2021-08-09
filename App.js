@@ -1,7 +1,7 @@
 import React from 'react';
-import {SafeAreaView, View, Text} from 'react-native';
+import {SafeAreaView, View, Text, Button} from 'react-native';
 import {createStore} from 'redux';
-import {Provider} from 'react-redux';
+import {Provider, useSelector, useDispatch} from 'react-redux';
 
 const initialState = {
   counter: 0,
@@ -18,25 +18,36 @@ function reducers(state, action) {
 
 export default () => {
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <First />
-      <Second />
-    </SafeAreaView>
+    <Provider store={createStore(reducers, initialState)}>
+      <SafeAreaView style={{flex: 1}}>
+        <First />
+        <Second />
+      </SafeAreaView>
+    </Provider>
   );
 };
 
 const First = () => {
+  const counter = useSelector( selector => selector.counter);
+   const dispatch = useDispatch();
+
+  const handleUpdate = () => {
+dispatch(
+  {type: 'UPDATE_COUNTER'})
+  }
   return (
     <View style={{flex: 1, backgroundColor: '#eceff1'}}>
-      <Text>First</Text>
+      <Text>First:{counter}</Text>
+      <Button title='Update' onPress={handleUpdate}/>
     </View>
   );
 };
 
 const Second = () => {
+  const counter = useSelector( selector => selector.counter);
   return (
     <View style={{flex: 1}}>
-      <Text>Second</Text>
+      <Text>Second: {counter}</Text>
     </View>
   );
 };
